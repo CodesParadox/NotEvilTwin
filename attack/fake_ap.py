@@ -77,6 +77,9 @@ def run_fake_ap():
 	### Start apache2 - web server
 	# os.system('service apache2 start')
 	### Start the web server
+	
+	#os.system('gnome-terminal -- sh -c "node html/index2.js <iface> "+ essid + "')
+	#os.system('gnome-terminal -- sh -c "node html/index2.js wlan1 "+ HouseLANister + "')
 	os.system('gnome-terminal -- sh -c "node html/index2.js"')
 	os.system('route add default gw 10.0.0.1')
 	### Link the hostapd to the configuration file.
@@ -110,17 +113,21 @@ def remove_conf_files():
 ######################
 
 if __name__ == "__main__":
-	print(B + "********************************************************************** \n")
-	print("******** Part 2: Set up & upload fake AP. MOHAHA. WE ARE EVIL ******** \n")
-	print("********************************************************************** \n")
+	print(B + r"""                                                                  
+    _/_/_/_/          _/                        _/_/    _/_/_/    
+   _/        _/_/_/  _/  _/      _/_/        _/    _/  _/    _/   
+  _/_/_/  _/    _/  _/_/      _/_/_/_/      _/_/_/_/  _/_/_/      
+ _/      _/    _/  _/  _/    _/            _/    _/  _/           
+_/        _/_/_/  _/    _/    _/_/_/      _/    _/  _/           """"\n")
+
 	
 	### Step 1: Choosing the interface to be used as the AP
-	print(G + "*** Step 1:  Choosing an interface that will be used for the fake AP. ***\n")
-	empty = input ("Press Enter to continue.........")
+	print(G + "*** Choose your interface to use for the fake AP. ***\n")
+	empty = input (T + "Notice that this interface need to e in managed mode and different from the previous one\n Press Enter to start")
 	print(W)
 	os.system('ifconfig')
 	global interface2
-	interface2 = input(G + "Please enter the interface name you want to use: ")
+	interface2 = input(G + "Enter the interface name you want to use: ")
 	
 	# Reset all the setting
 	reset_setting() 
@@ -131,20 +138,20 @@ if __name__ == "__main__":
 	essid = sys.argv[1] 
 	
 	### Step 2: Activate the fake AP
-	print(G + "*** Step 2:  Activation of the fake AP. ***\n")
-	empty = input ("Press Enter to continue.........")
+	empty = input (G + "To activate the fake AP press Enter")
 	print(W)
 	fake_ap_on()
 	create_conf_files()
 	run_fake_ap()
 	
 	### Step 3: Deactivate the fake AP
-	print(G + "*** Step 3:  Deactivation of the fake AP. ***\n")
+	print(G + "*** Deactivation of the fake AP. ***\n")
 	empty = input ("\nPress Enter to Close Fake Accses Point AND Power OFF the fake AP.........\n")
 	remove_conf_files()
 	reset_setting()
 	
-	print(G + "Everything returned back to default setting. \nHopes to see you soon :) ***\n")
+	print(G + "Return default setting. \n Bye-Bye And remember, its Not Evil Attack  ***\n")
+	print( R + "Your Deamon")
 
 	
 	
