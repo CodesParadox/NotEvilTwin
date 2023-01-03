@@ -91,7 +91,7 @@
   
 * [**deauth.py**](https://github.com/CodesParadox/NotEvilTwin/blob/master/attack/deauth.py)
   - Here we will send the deauthentication packets from to chosen AP to the chosen client and vice versa, it will cause them to disconnect from each other  
-  Notice that when this file is start running, it will run in the same terminal as the [```wifi_attack.py```](https://github.com/CodesParadox/NotEvilTwin/blob/master/attack/NotEvil.py). A new terminal, that will run [```fake_ap.py```](https://github.com/CodesParadox/NotEvilTwin/blob/master/attack/fake_ap.py), will be opened in order to continue the attack  
+  Notice that when this file is start running, it will run in the same terminal as the [```NotEvil.py```](https://github.com/CodesParadox/NotEvilTwin/blob/master/attack/NotEvil.py). A new terminal, that will run [```fake_ap.py```](https://github.com/CodesParadox/NotEvilTwin/blob/master/attack/fake_ap.py), will be opened in order to continue the attack  
   
 
 #### Part 2
@@ -141,7 +141,7 @@ In this part there are 2 options to run the code, either run a full attack (Part
 In this option you need to choose the name of the fake AP
 
 In order to run the fake AP, do as following:
-  1. Go to ```evil-twin/attack``` folder
+  1. Go to ```NotEvilTwin/attack``` folder
   2. Run the command ```$ python3 fake_ap.py <your_fake_ap_name>``` as root, such that *```<your_fake_ap_name>```* is the name of the fake AP:
   3. Follow the instructions as in the code
   4. And most importantly, HAVE FUN :) 
@@ -170,7 +170,7 @@ In order to run the fake AP, do as following:
 
 ### How to run the code
 In order to run the defence, do as following:
-   1. Go to ```evil-twin/defence``` folder
+   1. Go to ```NotEvilTwin\attack``` folder
    2. Run the command ```$ python3 defence.py``` as root:
    3. Follow the instructions as in the code
    4. And most importantly, HAVE FUN :) 
