@@ -72,7 +72,7 @@
 
 ### Files
 #### Part 1
-* [**wifi_attack.py**](https://github.com/CodesParadox/NotEvilTwin/blob/master/attack/NotEvil.py)  
+* [**NotEvil.py**](https://github.com/CodesParadox/NotEvilTwin/blob/master/attack/NotEvil.py)  
   - **Step 1: Choosing an interface to put in 'monitor mode'**    
     Here you need to choose the network interface that will scan the network for possible APs (Access Points) to attack, and after that will send the de-authentication packets  
     Notice that you need to choose the network interface that can be switched to 'monitor mode'   
